@@ -22,7 +22,9 @@ ui <-
     
     # Application title
     titlePanel("Open-access fishery dynamics"),
-    h5("Based Conrad (2010, Chpt. 3.5). Code by @grant_mcdermott."),
+    h5("Based on Conrad (2010, Chpt. 3.5)"),
+    h5("Author: ", a("@grant_mcdermott", href="https://twitter.com/grant_mcdermott", target="_blank")),
+    h5("Source code: ", a("https://github.com/grantmcdermott/open-access-fishery", href="https://github.com/grantmcdermott/open-access-fishery", target="_blank")),
     
      
      # Sidebar with sliders for our input variables
