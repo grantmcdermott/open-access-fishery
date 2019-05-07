@@ -129,6 +129,7 @@ server <-
         sapply(1:T, function(t){
           Time[t+1] <<- t+1
           Stock[t+1] <<- (1 + r - r*Stock[t]/K - q*Effort[t]) * Stock[t]
+          if (Stock[t+1] < 0) Stock[t+1] <<- 0 ## Stock can't go negative
           Effort[t+1] <<- (1 + eta * (p*q*Stock[t] - C)) * Effort[t]
           })
       
