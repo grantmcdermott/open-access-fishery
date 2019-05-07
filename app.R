@@ -20,12 +20,10 @@ ui <-
   fluidPage(
     theme = shinytheme("flatly"),
     
-    ## Add MathJax support for LaTeX: Here Denoted by $ (inline) or $$ (displayed separately)
-    ## See: http://docs.mathjax.org/en/latest/start.html
-    tags$head(
-      tags$script(src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full", type = 'text/javascript'),
-      tags$script( "MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});", type='text/x-mathjax-config')
-      ),
+    ## Add MathJax support
+    withMathJax(),
+    ## Allow single $ for inline MathJax support. See: http://docs.mathjax.org/en/latest/start.html
+    tags$script( "MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});", type='text/x-mathjax-config'),
     
     ## Application title
     titlePanel("Open-access fishery dynamics"),
@@ -36,7 +34,8 @@ ui <-
      ## Sidebar with sliders for our input variables
      sidebarLayout(
         sidebarPanel(
-          "As per", a("Conrad (2010, Chpt. 3.5)", href="https://www.amazon.com/Resource-Economics-Jon-M-Conrad-ebook/dp/B00FF76RAK", target="_blank"),"this fishery is governed by the difference equations:", 
+          "As per", a("Conrad (2010, Chpt. 3.5)", href="https://www.amazon.com/Resource-Economics-Jon-M-Conrad-ebook/dp/B00FF76RAK", target="_blank"),"this fishery is governed by the difference equations:",
+          # withMathJax("$$ X_{t+1} = [1+r - rX_t/K - qEt]X_t $$"),
           "$$ X_{t+1} = [1+r - rX_t/K - qEt]X_t $$",
           "$$ E_{t+1} = [1+\\eta(pq_tX_t-c)]E_t $$",
           "Adjust the individual parameters below to see how it affects the system dynamics.",
