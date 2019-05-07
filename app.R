@@ -20,60 +20,72 @@ ui <-
   fluidPage(
     theme = shinytheme("flatly"),
     
-    # Application title
+    ## Add MathJax support for LaTeX: Here Denoted by $ (inline) or $$ (displayed separately)
+    ## See: http://docs.mathjax.org/en/latest/start.html
+    tags$head(
+      tags$script(src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full", type = 'text/javascript'),
+      tags$script( "MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});", type='text/x-mathjax-config')
+      ),
+    
+    ## Application title
     titlePanel("Open-access fishery dynamics"),
-    h5("Based on Conrad (2010, Chpt. 3.5)"),
     h5("Author: ", a("@grant_mcdermott", href="https://twitter.com/grant_mcdermott", target="_blank")),
     h5("Source code: ", a("https://github.com/grantmcdermott/open-access-fishery", href="https://github.com/grantmcdermott/open-access-fishery", target="_blank")),
     
-     
-     # Sidebar with sliders for our input variables
+
+     ## Sidebar with sliders for our input variables
      sidebarLayout(
         sidebarPanel(
+          "As per", a("Conrad (2010, Chpt. 3.5)", href="https://www.amazon.com/Resource-Economics-Jon-M-Conrad-ebook/dp/B00FF76RAK", target="_blank"),"this fishery is governed by the difference equations:", 
+          "$$ X_{t+1} = [1+r - rX_t/K - qEt]X_t $$",
+          "$$ E_{t+1} = [1+\\eta(pq_tX_t-c)]E_t $$",
+          "Adjust the individual parameters below to see how it affects the system dynamics.",
+          tags$br(),
+          tags$br(),
           ## Intrinsic growth rate
           sliderInput(
-            inputId = "r", label = "Intrinsic growth rate (r):",
+            inputId = "r", label = "Intrinsic growth rate $(r)$:",
             min = 0.05, max = 0.3, value = 0.1
             ),
           ## Environmental carrying capacity
           sliderInput(
-            inputId = "K", label = "Carrying capacity (K):",
+            inputId = "K", label = "Carrying capacity $(K)$:",
             min = 0.1, max = 1, value = 1
             ),
           ## Catchability coefficient
           sliderInput(
-            inputId = "q", label = "Catchability coefficient (q):",
+            inputId = "q", label = "Catchability coefficient $(q)$:",
             min = 0.01, max = 0.1, value = 0.01
             ),
           ## Adjustment (stiffness paramter)
           sliderInput(
-            inputId = "eta", label = HTML("Adjustment parameter (&eta;):"),
+            inputId = "eta", label = HTML("Adjustment parameter $(\\eta)$:"),
             min = 0.1, max = 1, value = 0.3
             ),
           ## Per-unit price
           sliderInput(
-            inputId = "p", label = "Per-unit price (p):",
+            inputId = "p", label = "Per-unit price $(p)$:",
             min = 10, max = 500, value = 200
             ),
           ## Unit cost of effort
           sliderInput(
-            inputId = "C", label = "Unit cost of effort (c):",
+            inputId = "C", label = "Unit cost of effort ($c$):",
             min = 1, max = 10, value = 1
             ),
           ### Initial conditions
           ## Initial stock
           sliderInput(
-            inputId = "x0", label = HTML(paste0("Initial stock level (X", tags$sub(0), ")")),
+            inputId = "x0", label = HTML(paste0("Initial stock level ($X_0$)")),
             min = 0, max = 1, value =0.5
             ),
           ## Initial effort
           sliderInput(
-            inputId = "e0", label = HTML(paste0("Initial effort level (E", tags$sub(0), ")")),
+            inputId = "e0", label = HTML(paste0("Initial effort level $(E_0)$")),
             min = 0, max = 1, value = 1
             ),
           ## Total time periods
           sliderInput(
-            inputId = "T", label = "Total time periods (T)",
+            inputId = "T", label = "Total time periods $(T)$",
             min = 0, max = 100, value = 100
             )
            ),
@@ -134,7 +146,7 @@ server <-
           })
       
         fish <- 
-          data_frame(Time, Stock, Effort) %>%
+          tibble(Time, Stock, Effort) %>%
           # mutate(Catch = q*K*Effort*(1-q/r*Effort))
           mutate(Catch = q*Effort*Stock)
         
@@ -212,5 +224,5 @@ server <-
         })
 }
 
-# Run the app 
+## Run the app 
 shinyApp(ui = ui, server = server)
