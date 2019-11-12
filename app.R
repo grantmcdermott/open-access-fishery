@@ -35,8 +35,8 @@ ui <-
      sidebarLayout(
         sidebarPanel(
           "As per", a("Conrad (2010, Chpt. 3.5)", href="https://www.amazon.com/Resource-Economics-Jon-M-Conrad-ebook/dp/B00FF76RAK", target="_blank"),"this fishery is governed by the difference equations:",
-          # withMathJax("$$ X_{t+1} = [1+r - rX_t/K - qEt]X_t $$"),
-          "$$ X_{t+1} = [1+r - rX_t/K - qEt]X_t $$",
+          # withMathJax("$$ X_{t+1} = [1+r - rX_t/K - qE_t]X_t $$"),
+          "$$ X_{t+1} = [1+r - rX_t/K - qE_t]X_t $$",
           "$$ E_{t+1} = [1+\\eta(pq_tX_t-c)]E_t $$",
           "Adjust the individual parameters below to see how it affects the system dynamics.",
           tags$br(),
