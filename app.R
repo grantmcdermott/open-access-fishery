@@ -7,6 +7,7 @@
 library(shiny)
 library(shinythemes)
 library(tidyverse)
+# library(patchwork) ## Uncomment if prefer to use Option 1 (see below) for multipanel figure
 library(hrbrthemes)
 theme_set(hrbrthemes::theme_ipsum_rc(axis_title_size = 12, base_size = 15))
 
@@ -90,7 +91,7 @@ ui <-
            ),
         ## Show the generated plot(s)
         mainPanel(
-          ## Combined plot option 1: Use patchwork package (Doesn't work with R 3.6.0 yet...)
+          ## Combined plot option 1: Use patchwork package (simple, but doesn't scale full page without tweaking)
           # plotOutput("plot_combined")
           ##  Combined plot option 2: Use in-built shiny fluidRow layout functionality 
           tabPanel("Plot",
@@ -154,12 +155,13 @@ server <-
     
     ## Next, draw the plots and arrange in a grid
 
-    ## Option 1: Render as one, using patchwork to arrange (Simple but doesn't work with R 3.6.0 yet...)
+    ## Option 1: Render as one image, using patchwork to arrange (simple, but doesn't scale full page without tweaking)
     # output$plot_combined <-
     #   renderPlot({
     #     ## Note "fish()" rather than conventional "fish"
     #     p1 <-
     #       fish() %>%
+    #       ggplot(aes(x=Catch, y=Effort, col=Time)) +
     #       geom_path(lwd=0.75) +
     #       labs(title = "Catch vs. Effort") +
     #       scale_colour_viridis_c()
